@@ -1,0 +1,3 @@
+package ioredis;
+
+typedef OverloadedListCommand<T, U> = ts.AnyOf8<(arg1:T, arg2:T, arg3:T, arg4:T, arg5:T, arg6:T, cb:Callback<U>) -> Void, (arg1:T, arg2:T, arg3:T, arg4:T, arg5:T, cb:Callback<U>) -> Void, (arg1:T, arg2:T, arg3:T, arg4:T, cb:Callback<U>) -> Void, (arg1:T, arg2:T, arg3:T, cb:Callback<U>) -> Void, (arg1:T, arg2:T, cb:Callback<U>) -> Void, (arg1:ts.AnyOf2<Array<T>, T>, cb:Callback<U>) -> Void, (args:haxe.extern.Rest<T>) -> js.lib.Promise<U>, (arg1:Array<T>) -> js.lib.Promise<U>>;

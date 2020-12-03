@@ -1,0 +1,7 @@
+{
+  "devDependencies": {
+    "@types/ioredis": "^4.17.8",
+    "dts2hx": "^0.15.3",
+    "ioredis": "^4.19.2"
+  }
+}

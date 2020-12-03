@@ -1,0 +1,16 @@
+{
+	"name": "hxnodejs-ioredis",
+	"classPath": "src",
+	"dependencies": {},
+	"url": "https://github.com/kevinresol/hxnodejs-ioredis",
+	"contributors": [
+		"kevinresol"
+	],
+	"version": "4.19.2",
+	"releasenote": "Initial",
+	"tags": [
+		"ioredis",
+		"redis"
+	],
+	"license": "MIT"
+}
