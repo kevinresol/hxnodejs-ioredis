@@ -70,7 +70,7 @@ typedef Pipeline = {
 	function sdiff(keys:haxe.extern.Rest<KeyType>):Pipeline;
 	function sdiffstore(destination:String, keys:haxe.extern.Rest<KeyType>):Pipeline;
 	function smembers(key:KeyType, ?callback:Callback<Array<String>>):Pipeline;
-	function zadd(key:KeyType, args:haxe.extern.Rest<String>):Pipeline;
+	function zadd(key:KeyType, scoresAndMembers:haxe.extern.Rest<ts.AnyOf2<String, Float>>):Pipeline;
 	function zincrby(key:KeyType, increment:Float, member:String, ?callback:Callback<String>):Pipeline;
 	function zpopmin(key:KeyType, count:Float, ?callback:Callback<Array<String>>):Pipeline;
 	function zpopmax(key:KeyType, count:Float, ?callback:Callback<Array<String>>):Pipeline;
@@ -116,6 +116,14 @@ typedef Pipeline = {
 	function hvals(key:KeyType, ?callback:Callback<Array<String>>):Pipeline;
 	function hgetall(key:KeyType, ?callback:Callback<{ }>):Pipeline;
 	function hexists(key:KeyType, field:String, ?callback:Callback<BooleanResponse>):Pipeline;
+	function geoadd(key:KeyType, longitude:Float, latitude:Float, member:String, ?callback:Callback<Float>):Pipeline;
+	function geodist(key:KeyType, member1:String, member2:String, unit:String, ?callback:Callback<Null<String>>):Pipeline;
+	function geohash(key:KeyType, fields:haxe.extern.Rest<String>):Pipeline;
+	function geopos(key:KeyType, fields:haxe.extern.Rest<String>):Pipeline;
+	@:overload(function(key:KeyType, longitude:Float, latitude:Float, radius:Float, unit:String, count:String, countValue:Float, ?callback:Callback<Array<String>>):Pipeline { })
+	function georadius(key:KeyType, longitude:Float, latitude:Float, radius:Float, unit:String, ?callback:Callback<Array<String>>):Pipeline;
+	@:overload(function(key:KeyType, member:String, radius:Float, unit:String, count:String, countValue:Float, ?callback:Callback<Array<String>>):Pipeline { })
+	function georadiusbymember(key:KeyType, member:String, radius:Float, unit:String, ?callback:Callback<Array<String>>):Pipeline;
 	function incrby(key:KeyType, increment:Float, ?callback:Callback<Float>):Pipeline;
 	function incrbyfloat(key:KeyType, increment:Float, ?callback:Callback<Float>):Pipeline;
 	function decrby(key:KeyType, decrement:Float, ?callback:Callback<Float>):Pipeline;

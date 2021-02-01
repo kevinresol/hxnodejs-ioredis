@@ -26,7 +26,7 @@ typedef ClusterOptions = {
 	@:optional
 	var lazyConnect : Bool;
 	@:optional
-	dynamic function dnsLookup(hostname:String, callback:(err:Null<global.nodejs.ErrnoException>, address:String, family:Float) -> Void):Void;
+	dynamic function dnsLookup(hostname:String, callback:ts.AnyOf2<(err:Null<global.nodejs.ErrnoException>, address:String) -> Void, (err:Null<global.nodejs.ErrnoException>, address:String, family:Float) -> Void>):Void;
 	@:optional
 	var natMap : NatMap;
 };

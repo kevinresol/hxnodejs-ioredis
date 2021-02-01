@@ -1,6 +1,6 @@
 package ioredis;
 
-typedef Redis = {
+extern class Redis {
 	var Promise : js.lib.PromiseConstructor;
 	final options : RedisOptions;
 	final status : String;
@@ -151,6 +151,7 @@ typedef Redis = {
 	function rpop(key:KeyType, callback:Callback<String>):Void;
 	@:overload(function(key:KeyType):js.lib.Promise<String> { })
 	function lpop(key:KeyType, callback:Callback<String>):Void;
+	function lpos(key:KeyType, value:ValueType_, ?rank:Float, ?count:Float, ?maxlen:Float):js.lib.Promise<Null<Float>>;
 	@:overload(function(key:KeyType):js.lib.Promise<global.Buffer> { })
 	function lpopBuffer(key:KeyType, callback:Callback<global.Buffer>):Void;
 	@:overload(function(arg1:KeyType, arg2:KeyType, arg3:KeyType, arg4:KeyType, arg5:KeyType, timeout:Float, cb:Callback<ts.Tuple2<String, String>>):Void { })
@@ -364,9 +365,15 @@ typedef Redis = {
 	@:overload(function(key:KeyType, start:Float, stop:Float, withScores:String, callback:Callback<Array<String>>):Void { })
 	@:overload(function(key:KeyType, start:Float, stop:Float, ?withScores:String):js.lib.Promise<Array<String>> { })
 	function zrange(key:KeyType, start:Float, stop:Float, callback:Callback<Array<String>>):Void;
+	@:overload(function(key:KeyType, start:Float, stop:Float, withScores:String, callback:Callback<Array<global.Buffer>>):Void { })
+	@:overload(function(key:KeyType, start:Float, stop:Float, ?withScores:String):js.lib.Promise<Array<global.Buffer>> { })
+	function zrangeBuffer(key:KeyType, start:Float, stop:Float, callback:Callback<Array<global.Buffer>>):Void;
 	@:overload(function(key:KeyType, start:Float, stop:Float, withScores:String, callback:Callback<Array<String>>):Void { })
 	@:overload(function(key:KeyType, start:Float, stop:Float, ?withScores:String):js.lib.Promise<Array<String>> { })
 	function zrevrange(key:KeyType, start:Float, stop:Float, callback:Callback<Array<String>>):Void;
+	@:overload(function(key:KeyType, start:Float, stop:Float, withScores:String, callback:Callback<Array<global.Buffer>>):Void { })
+	@:overload(function(key:KeyType, start:Float, stop:Float, ?withScores:String):js.lib.Promise<Array<global.Buffer>> { })
+	function zrevrangeBuffer(key:KeyType, start:Float, stop:Float, callback:Callback<Array<global.Buffer>>):Void;
 	@:overload(function(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>, withScores:String, limit:String, offset:Float, count:Float):js.lib.Promise<Array<String>> { })
 	@:overload(function(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>, limit:String, offset:Float, count:Float):js.lib.Promise<Array<String>> { })
 	@:overload(function(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>, callback:Callback<Array<String>>):Void { })
@@ -374,6 +381,13 @@ typedef Redis = {
 	@:overload(function(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>, withScores:String, limit:String, offset:Float, count:Float, callback:Callback<Array<String>>):Void { })
 	@:overload(function(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>, limit:String, offset:Float, count:Float, callback:Callback<Array<String>>):Void { })
 	function zrangebyscore(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>, ?withScores:String):js.lib.Promise<Array<String>>;
+	@:overload(function(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>, withScores:String, limit:String, offset:Float, count:Float):js.lib.Promise<Array<global.Buffer>> { })
+	@:overload(function(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>, limit:String, offset:Float, count:Float):js.lib.Promise<Array<global.Buffer>> { })
+	@:overload(function(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>, callback:Callback<Array<global.Buffer>>):Void { })
+	@:overload(function(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>, withScores:String, callback:Callback<Array<global.Buffer>>):Void { })
+	@:overload(function(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>, withScores:String, limit:String, offset:Float, count:Float, callback:Callback<Array<global.Buffer>>):Void { })
+	@:overload(function(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>, limit:String, offset:Float, count:Float, callback:Callback<Array<global.Buffer>>):Void { })
+	function zrangebyscoreBuffer(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>, ?withScores:String):js.lib.Promise<Array<global.Buffer>>;
 	@:overload(function(key:KeyType, max:ts.AnyOf2<String, Float>, min:ts.AnyOf2<String, Float>, withScores:String, limit:String, offset:Float, count:Float):js.lib.Promise<Array<String>> { })
 	@:overload(function(key:KeyType, max:ts.AnyOf2<String, Float>, min:ts.AnyOf2<String, Float>, limit:String, offset:Float, count:Float):js.lib.Promise<Array<String>> { })
 	@:overload(function(key:KeyType, max:ts.AnyOf2<String, Float>, min:ts.AnyOf2<String, Float>, callback:Callback<Array<String>>):Void { })
@@ -381,14 +395,29 @@ typedef Redis = {
 	@:overload(function(key:KeyType, max:ts.AnyOf2<String, Float>, min:ts.AnyOf2<String, Float>, withScores:String, limit:String, offset:Float, count:Float, callback:Callback<Array<String>>):Void { })
 	@:overload(function(key:KeyType, max:ts.AnyOf2<String, Float>, min:ts.AnyOf2<String, Float>, limit:String, offset:Float, count:Float, callback:Callback<Array<String>>):Void { })
 	function zrevrangebyscore(key:KeyType, max:ts.AnyOf2<String, Float>, min:ts.AnyOf2<String, Float>, ?withScores:String):js.lib.Promise<Array<String>>;
+	@:overload(function(key:KeyType, max:ts.AnyOf2<String, Float>, min:ts.AnyOf2<String, Float>, withScores:String, limit:String, offset:Float, count:Float):js.lib.Promise<Array<global.Buffer>> { })
+	@:overload(function(key:KeyType, max:ts.AnyOf2<String, Float>, min:ts.AnyOf2<String, Float>, limit:String, offset:Float, count:Float):js.lib.Promise<Array<global.Buffer>> { })
+	@:overload(function(key:KeyType, max:ts.AnyOf2<String, Float>, min:ts.AnyOf2<String, Float>, callback:Callback<Array<global.Buffer>>):Void { })
+	@:overload(function(key:KeyType, max:ts.AnyOf2<String, Float>, min:ts.AnyOf2<String, Float>, withScores:String, callback:Callback<Array<global.Buffer>>):Void { })
+	@:overload(function(key:KeyType, max:ts.AnyOf2<String, Float>, min:ts.AnyOf2<String, Float>, withScores:String, limit:String, offset:Float, count:Float, callback:Callback<Array<global.Buffer>>):Void { })
+	@:overload(function(key:KeyType, max:ts.AnyOf2<String, Float>, min:ts.AnyOf2<String, Float>, limit:String, offset:Float, count:Float, callback:Callback<Array<global.Buffer>>):Void { })
+	function zrevrangebyscoreBuffer(key:KeyType, max:ts.AnyOf2<String, Float>, min:ts.AnyOf2<String, Float>, ?withScores:String):js.lib.Promise<Array<global.Buffer>>;
 	@:overload(function(key:KeyType, min:String, max:String, limit:String, offset:Float, count:Float):js.lib.Promise<Array<String>> { })
 	@:overload(function(key:KeyType, min:String, max:String, callback:Callback<Array<String>>):Void { })
 	@:overload(function(key:KeyType, min:String, max:String, limit:String, offset:Float, count:Float, callback:Callback<Array<String>>):Void { })
 	function zrangebylex(key:KeyType, min:String, max:String):js.lib.Promise<Array<String>>;
+	@:overload(function(key:KeyType, min:String, max:String, limit:String, offset:Float, count:Float):js.lib.Promise<Array<global.Buffer>> { })
+	@:overload(function(key:KeyType, min:String, max:String, callback:Callback<Array<global.Buffer>>):Void { })
+	@:overload(function(key:KeyType, min:String, max:String, limit:String, offset:Float, count:Float, callback:Callback<Array<global.Buffer>>):Void { })
+	function zrangebylexBuffer(key:KeyType, min:String, max:String):js.lib.Promise<Array<global.Buffer>>;
 	@:overload(function(key:KeyType, min:String, max:String, limit:String, offset:Float, count:Float):js.lib.Promise<Array<String>> { })
 	@:overload(function(key:KeyType, min:String, max:String, callback:Callback<Array<String>>):Void { })
 	@:overload(function(key:KeyType, min:String, max:String, limit:String, offset:Float, count:Float, callback:Callback<Array<String>>):Void { })
 	function zrevrangebylex(key:KeyType, min:String, max:String):js.lib.Promise<Array<String>>;
+	@:overload(function(key:KeyType, min:String, max:String, limit:String, offset:Float, count:Float):js.lib.Promise<Array<global.Buffer>> { })
+	@:overload(function(key:KeyType, min:String, max:String, callback:Callback<Array<global.Buffer>>):Void { })
+	@:overload(function(key:KeyType, min:String, max:String, limit:String, offset:Float, count:Float, callback:Callback<Array<global.Buffer>>):Void { })
+	function zrevrangebylexBuffer(key:KeyType, min:String, max:String):js.lib.Promise<Array<global.Buffer>>;
 	@:overload(function(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>):js.lib.Promise<Float> { })
 	function zcount(key:KeyType, min:ts.AnyOf2<String, Float>, max:ts.AnyOf2<String, Float>, callback:Callback<Float>):Void;
 	@:overload(function(key:KeyType):js.lib.Promise<Float> { })
@@ -399,12 +428,12 @@ typedef Redis = {
 	function zrank(key:KeyType, member:String, callback:Callback<Null<Float>>):Void;
 	@:overload(function(key:KeyType, member:String):js.lib.Promise<Null<Float>> { })
 	function zrevrank(key:KeyType, member:String, callback:Callback<Null<Float>>):Void;
-	@:overload(function(key:KeyType, arg1:ValueType_, arg2:ValueType_, arg3:ValueType_, arg4:ValueType_, cb:Callback<String>):Void { })
-	@:overload(function(key:KeyType, arg1:ValueType_, arg2:ValueType_, cb:Callback<String>):Void { })
-	@:overload(function(key:KeyType, data:ts.AnyOf3<Array<ValueType_>, js.lib.Map<String, ValueType_>, { }>, cb:Callback<String>):Void { })
-	@:overload(function(key:KeyType, data:ts.AnyOf3<Array<ValueType_>, js.lib.Map<String, ValueType_>, { }>):js.lib.Promise<String> { })
-	@:overload(function(key:KeyType, args:haxe.extern.Rest<ValueType_>):js.lib.Promise<String> { })
-	dynamic function hset(key:KeyType, arg1:ValueType_, arg2:ValueType_, arg3:ValueType_, arg4:ValueType_, arg5:ValueType_, arg6:ValueType_, cb:Callback<String>):Void;
+	@:overload(function(key:KeyType, arg1:ValueType_, arg2:ValueType_, arg3:ValueType_, arg4:ValueType_, cb:Callback<Float>):Void { })
+	@:overload(function(key:KeyType, arg1:ValueType_, arg2:ValueType_, cb:Callback<Float>):Void { })
+	@:overload(function(key:KeyType, data:ts.AnyOf3<Array<ValueType_>, js.lib.Map<String, ValueType_>, { }>, cb:Callback<Float>):Void { })
+	@:overload(function(key:KeyType, data:ts.AnyOf3<Array<ValueType_>, js.lib.Map<String, ValueType_>, { }>):js.lib.Promise<Float> { })
+	@:overload(function(key:KeyType, args:haxe.extern.Rest<ValueType_>):js.lib.Promise<Float> { })
+	dynamic function hset(key:KeyType, arg1:ValueType_, arg2:ValueType_, arg3:ValueType_, arg4:ValueType_, arg5:ValueType_, arg6:ValueType_, cb:Callback<Float>):Void;
 	@:overload(function(key:KeyType, field:String, value:ValueType_):js.lib.Promise<global.Buffer> { })
 	function hsetBuffer(key:KeyType, field:String, value:ValueType_, callback:Callback<BooleanResponse>):Void;
 	@:overload(function(key:KeyType, field:String, value:ValueType_):js.lib.Promise<BooleanResponse> { })
@@ -451,6 +480,33 @@ typedef Redis = {
 	function hgetall(key:KeyType, callback:Callback<{ }>):Void;
 	@:overload(function(key:KeyType, field:String):js.lib.Promise<BooleanResponse> { })
 	function hexists(key:KeyType, field:String, callback:Callback<BooleanResponse>):Void;
+	@:overload(function(key:KeyType, longitude:Float, latitude:Float, member:String):js.lib.Promise<Float> { })
+	function geoadd(key:KeyType, longitude:Float, latitude:Float, member:String, callback:Callback<Float>):Void;
+	@:overload(function(key:KeyType, member1:String, member2:String, unit:String):js.lib.Promise<Null<String>> { })
+	function geodist(key:KeyType, member1:String, member2:String, unit:String, callback:Callback<Null<String>>):Void;
+	@:overload(function(key:KeyType, arg1:String, arg2:String, arg3:String, arg4:String, arg5:String, cb:Callback<Array<String>>):Void { })
+	@:overload(function(key:KeyType, arg1:String, arg2:String, arg3:String, arg4:String, cb:Callback<Array<String>>):Void { })
+	@:overload(function(key:KeyType, arg1:String, arg2:String, arg3:String, cb:Callback<Array<String>>):Void { })
+	@:overload(function(key:KeyType, arg1:String, arg2:String, cb:Callback<Array<String>>):Void { })
+	@:overload(function(key:KeyType, arg1:ts.AnyOf2<String, Array<String>>, cb:Callback<Array<String>>):Void { })
+	@:overload(function(key:KeyType, args:haxe.extern.Rest<String>):js.lib.Promise<Array<String>> { })
+	@:overload(function(key:KeyType, arg1:Array<String>):js.lib.Promise<Array<String>> { })
+	dynamic function geohash(key:KeyType, arg1:String, arg2:String, arg3:String, arg4:String, arg5:String, arg6:String, cb:Callback<Array<String>>):Void;
+	@:overload(function(key:KeyType, arg1:String, arg2:String, arg3:String, arg4:String, arg5:String, cb:Callback<Array<String>>):Void { })
+	@:overload(function(key:KeyType, arg1:String, arg2:String, arg3:String, arg4:String, cb:Callback<Array<String>>):Void { })
+	@:overload(function(key:KeyType, arg1:String, arg2:String, arg3:String, cb:Callback<Array<String>>):Void { })
+	@:overload(function(key:KeyType, arg1:String, arg2:String, cb:Callback<Array<String>>):Void { })
+	@:overload(function(key:KeyType, arg1:ts.AnyOf2<String, Array<String>>, cb:Callback<Array<String>>):Void { })
+	@:overload(function(key:KeyType, args:haxe.extern.Rest<String>):js.lib.Promise<Array<String>> { })
+	@:overload(function(key:KeyType, arg1:Array<String>):js.lib.Promise<Array<String>> { })
+	dynamic function geopos(key:KeyType, arg1:String, arg2:String, arg3:String, arg4:String, arg5:String, arg6:String, cb:Callback<Array<String>>):Void;
+	@:overload(function(key:KeyType, longitude:Float, latitude:Float, radius:Float, unit:String, ?sort:String):js.lib.Promise<Array<String>> { })
+	@:overload(function(key:KeyType, longitude:Float, latitude:Float, radius:Float, unit:String, count:String, countValue:Float, ?sort:String):js.lib.Promise<Array<String>> { })
+	function georadius(key:KeyType, longitude:Float, latitude:Float, radius:Float, unit:String, callback:Callback<Array<String>>):Void;
+	@:overload(function(key:KeyType, member:String, radius:Float, unit:String, count:String, countValue:Float, callback:Callback<Array<String>>):Void { })
+	@:overload(function(key:KeyType, member:String, radius:Float, unit:String):js.lib.Promise<Array<String>> { })
+	@:overload(function(key:KeyType, member:String, radius:Float, unit:String, count:String, countValue:Float):js.lib.Promise<Array<String>> { })
+	function georadiusbymember(key:KeyType, member:String, radius:Float, unit:String, callback:Callback<Array<String>>):Void;
 	@:overload(function(key:KeyType, increment:Float):js.lib.Promise<Float> { })
 	function incrby(key:KeyType, increment:Float, callback:Callback<Float>):Void;
 	@:overload(function(key:KeyType, increment:Float):js.lib.Promise<Float> { })
@@ -840,4 +896,4 @@ typedef Redis = {
 	@:overload(function(key:KeyType, args:haxe.extern.Rest<ValueType_>):js.lib.Promise<Float> { })
 	@:overload(function(key:KeyType, arg1:Array<ValueType_>):js.lib.Promise<Float> { })
 	dynamic function xtrim(key:KeyType, arg1:ValueType_, arg2:ValueType_, arg3:ValueType_, arg4:ValueType_, arg5:ValueType_, arg6:ValueType_, cb:Callback<Float>):Void;
-};
+}

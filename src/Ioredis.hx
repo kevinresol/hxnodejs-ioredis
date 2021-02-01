@@ -1,13 +1,9 @@
-@:jsRequire("ioredis") extern class Ioredis {
-	@:overload(function(?host:String, ?options:ioredis.RedisOptions):ioredis.Redis { })
-	@:overload(function(?options:ioredis.RedisOptions):ioredis.Redis { })
+@:jsRequire("ioredis") extern class Ioredis extends ioredis.Redis {
+	@:overload(function(?host:String, ?options:ioredis.RedisOptions):Ioredis { })
+	@:overload(function(?options:ioredis.RedisOptions):Ioredis { })
 	function new(?port:Float, ?host:String, ?options:ioredis.RedisOptions);
 	static var value(get, never) : ioredis.RedisStatic;
 	static inline function get_value():ioredis.RedisStatic return cast Ioredis;
-	@:overload(function(?host:String, ?options:ioredis.RedisOptions):ioredis.Redis { })
-	@:overload(function(?options:ioredis.RedisOptions):ioredis.Redis { })
-	@:selfCall
-	static function call(?port:Float, ?host:String, ?options:ioredis.RedisOptions):ioredis.Redis;
 	static var Cluster : ioredis.ClusterStatic;
 	static var Command : {
 		var prototype : ioredis.Command_;
